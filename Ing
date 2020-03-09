@@ -1,0 +1,128 @@
+package com.example.pr1
+import java.util.Scanner
+
+fun main(){
+   /* var arr1 = listOf(1,2,3)
+    var arr2 = mutableListOf("String","array","Yo")
+    var user=Puser()
+    var sc=Scanner(System.`in`)
+    var num: Int?
+    for(item in arr1){
+        println(item)
+    }
+
+    for((ind,i) in arr1.withIndex()){
+        println("$ind,번째 $i")
+    }*/
+    while(true) {
+        println("일정 추가:1\n일정 보기:2\n일정 삭제:3\n일정 정리:4\n종료:나머지")
+        num = sc.nextInt()
+        if (num == 1) {
+            addPsch(user)
+        } else if (num == 2) {
+            user.showSch()
+        }
+        else if(num==3){
+            delPsch(user)
+        }
+        else if(num==4){
+            user.MDiary()
+        }
+        else{
+            break
+        }
+    }
+    user.showSch()
+}
+fun addPsch(u:Puser){
+    var sc1=Sch()
+    u.addSch(sc1)
+}
+fun delPsch(u:Puser){
+    var title:String?
+    var sc=Scanner(System.`in`)
+    println("삭제할 일정 제목:")
+    title=sc.nextLine()
+    for((ind,sch) in u.sch.withIndex()){
+        if(sch.ptitle.equals(title)){
+            u.sch.removeAt(ind)
+            return
+        }
+    }
+    println("해당 제목의 일정은 없습니다. 삭제를 종료합니다")
+}
+
+class Puser{
+    var sch = mutableListOf<Sch>()
+    var num: Int = 0
+    fun addSch(sche:Sch){
+        sch.add(sche)
+
+    }
+    fun showSch(){
+        for(sche in sch){
+            sche.show()
+        }
+    }
+    fun MDiary(){
+        var sc: Scanner = Scanner(System.`in`)
+        var ddate=""
+        var diary = mutableListOf<Sch>()
+        var count = mutableListOf<Int>()
+        var contents=""
+        println("정리할 날짜 입력")
+        ddate=sc.nextLine()
+        for(sche in sch){
+            if(sche.pdate.equals(ddate)){
+                diary.add(sche)
+                count.add(sche.ptime)
+            }
+        }
+        count.sort()
+        if(count.isNotEmpty()) {
+            for (c in count) {
+                for (sche in diary) {
+                    if (sche.ptime == c) {
+                        contents =
+                            contents + "$c"+ "에 " + sche.plocation + "에서 " + sche.ptitle + "을 했다."
+                    }
+                }
+            }
+        }
+        else{
+            println("해당 날짜의 일정은 없습니다")
+        }
+        println(contents)
+    }
+}
+
+class Sch{
+    var ptitle: String? = null
+    var pdate: String? = null
+    var ptime: Int=0
+    var plocation: String? = null
+    var pinfo: String? = null
+    constructor(){
+        var sc: Scanner = Scanner(System.`in`)
+        println("제목 입력")
+        ptitle=sc.nextLine()
+        println("날짜 입력")
+        pdate=sc.nextLine()
+        println("시간 입력(정수형태)")
+        ptime=sc.nextInt()
+        plocation=sc.nextLine()
+        println("장소 입력")
+        plocation=sc.nextLine()
+        println("추가 사항")
+        pinfo=sc.nextLine()
+        //show()
+    }
+    constructor(item:Int){
+        println("$item\n기본")
+
+    }
+    fun show(){
+        println("제목:$ptitle\n날짜:$pdate\n시간:$ptime\n장소:$plocation\n추가사항:$pinfo\n")
+    }
+}
+
